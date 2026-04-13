@@ -1,1 +1,87 @@
-
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  endpoints:
+  - port: metrics
+    interval: 15s
+  namespaceSelector:
+    matchNames:
+    - monitoring
+  selector:
+    matchLabels:
+      app: external-node-exporter
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+  labels:
+    app: external-node-exporter
+spec:
+  ports:
+  - name: metrics
+    port: 9100
+    targetPort: 9100
+  clusterIP: None
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+subsets:
+- addresses:
+  - ip: 10.0.0.9
+  ports:
+  - port: 9100
+    name: metrics
+root@austinshomelab:~# cat node-exporter.yaml 
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  endpoints:
+  - port: metrics
+    interval: 15s
+  namespaceSelector:
+    matchNames:
+    - monitoring
+  selector:
+    matchLabels:
+      app: external-node-exporter
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+  labels:
+    app: external-node-exporter
+spec:
+  ports:
+  - name: metrics
+    port: 9100
+    targetPort: 9100
+  clusterIP: None
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+subsets:
+- addresses:
+  - ip: 10.0.0.9
+  ports:
+  - port: 9100
+    name: metrics
