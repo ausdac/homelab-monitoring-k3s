@@ -203,7 +203,7 @@ homelab-monitoring-k3s/
 ├── manifests/
 │   ├── node-exporter.yaml
 │   ├── blackbox-probes.yaml
-│   └── grafana-service.yaml
+│   └── grafana-values.yaml
 ├── screenshots/
 └── .gitignore
 ```
